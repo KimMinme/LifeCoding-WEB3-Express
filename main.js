@@ -34,8 +34,11 @@ app.get('/', function(request, response){ // path가 '/'일 때
   });
 });
 
-app.get('/page', function(req, res){ // path가 '/page'일 때
-  return res.send('/page'); // page에 '/page'를 띄움
+// query string(?)이 아닌 Clean(pretty, semantic) URL로 Routing
+/* ':pageId'는 request.params 객체의 프로퍼티 key가 되고 
+  URL에서 ':pageId'의 위치에 입력된 값이 곧 그 key의 value가 됨 */
+app.get('/page/:pageId', function(request, response){
+  response.send(request.params); // request.params 객체의 프로퍼티를 보여줌
 });
 
 /* app.listen(3000, () => console.log('Example app listening on port 3000!'));
