@@ -4,6 +4,10 @@
 var express = require('express');
 // express() 함수는 application 객체를 반환
 var app = express();
+// fs 모듈 불러오기
+var fs = require('fs');
+// template 모듈 불러오기
+var template = require('./lib/template.js');
 
 /* get(path, callback [, callback...]) 메서드는 
   path를 routing(경로 설정)하여 사용자가 그곳으로 
@@ -11,8 +15,23 @@ var app = express();
 // 기존에는 routing을 if문으로 구현함
 /* app.get('/', (req,res) => res.send('Hello World!')); 
   위 화살표 함수는 아래와 같음 */
-app.get('/', function(req, res){ // path가 '/'일 때
-  return res.send('/'); // page에 '/'를 띄움
+app.get('/', function(request, response){ // path가 '/'일 때
+  fs.readdir('./data', function(error, filelist){
+    var title = 'Welcome';
+    var description = 'Hello, Node.js';
+    // filelist <li> 태그화 함수
+    var list = template.list(filelist);
+    /* html template 생성 함수 
+      인자는 title, list, body, control 순 */
+    var html = template.HTML(title, list,
+      `<h2>${title}</h2>${description}`,
+      `<a href="/create">create</a>`
+    );
+    /* response.writeHead(200);
+      response.end(html); 
+      위 코드를 아래와 같이 한 줄로 */
+    response.send(html);
+  });
 });
 
 app.get('/page', function(req, res){ // path가 '/page'일 때
