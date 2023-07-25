@@ -1,11 +1,29 @@
-// Node.js Web Application Framework Express
+// Node.js Web Application Framework - Express
 
-const express = require('express');
-const app = express();
+// express 모듈 불러오기
+var express = require('express');
+// express() 함수는 application 객체를 반환
+var app = express();
 
-app.get('/', (req,res) => res.send('Hello World!'));
+/* get(path, callback [, callback...]) 메서드는 
+  path를 routing(경로 설정)하여 사용자가 그곳으로 
+  접근했을 때 callback을 실행함*/
+// 기존에는 routing을 if문으로 구현함
+/* app.get('/', (req,res) => res.send('Hello World!')); 
+  위 화살표 함수는 아래와 같음 */
+app.get('/', function(req, res){ // path가 '/'일 때
+  return res.send('/'); // page에 '/'를 띄움
+});
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+app.get('/page', function(req, res){ // path가 '/page'일 때
+  return res.send('/page'); // page에 '/page'를 띄움
+});
+
+/* app.listen(3000, () => console.log('Example app listening on port 3000!'));
+  위 화살표 함수는 아래와 같음 */
+app.listen(3000, function() {
+  console.log('Example app listening on port 3000!');
+});
 
 // 아래 코드는 참고용
 
